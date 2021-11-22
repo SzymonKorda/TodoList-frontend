@@ -5,9 +5,8 @@ import Navbar from "./components/Task/Header";
 import Jumbotron from "./components/Task/Jumbotron";
 import TaskItemList from "./components/Task/TaskItemList";
 import NewTaskModal from "./components/Task/NewTaskModal";
-import RegisterUserModal from "./components/User/RegisterUserModal";
 import LoginUserModal from "./components/User/LoginUserModal";
-import TaskToast from "./components/Task/TaskToast";
+import CustomToast from "./components/Task/CustomToast";
 
 
 const App = () => {
@@ -132,7 +131,7 @@ const App = () => {
                 onHide={handleLoginModalClose}
                 onSubmit={loginUserHandler}
             />}
-            {toastShow && <TaskToast
+            {toastShow && <CustomToast
                 show={toastShow}
                 onClose={handleToastClose}
                 message={'Task added successfully!'}

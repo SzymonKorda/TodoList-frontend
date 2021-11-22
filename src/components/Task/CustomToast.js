@@ -1,14 +1,14 @@
 import {ToastContainer, Toast} from "react-bootstrap";
 
-const TaskToast = (props) => {
+const CustomToast = (props) => {
     return (
         <ToastContainer position={"top-end"} onClick={props.onClose}>
             <Toast
                 show={props.show}
                 onClose={props.onClose}
-                delay={2000}
+                delay={3000}
                 autohide animation={true}
-                bg={'success'}
+                bg={props.bg}
             >
                 <Toast.Body>{props.message}</Toast.Body>
             </Toast>
@@ -16,4 +16,4 @@ const TaskToast = (props) => {
     );
 };
 
-export default TaskToast;
+export default CustomToast;

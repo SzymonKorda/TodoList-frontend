@@ -1,10 +1,11 @@
 import {Button, Container, Nav, Navbar} from "react-bootstrap";
 import {useState} from "react";
-import axios from "axios";
 import RegisterUserModal from "../User/RegisterUserModal";
+import CustomToast from "./CustomToast";
 
 const Header = (props) => {
     const [registerUserModalShow, setRegisterUserModalShow] = useState(false);
+    const [showToast, setShowToast] = useState({show: false, message: '', type: ''})
 
     const handleRegisterModalShow = () => {
         setRegisterUserModalShow(true);
@@ -14,20 +15,20 @@ const Header = (props) => {
         setRegisterUserModalShow(false);
     };
 
-    const registerUserHandler = (enteredUsername, enteredEmail, enteredPassword) => {
-        setRegisterUserModalShow(false);
-        const user = {
-            username: enteredUsername,
-            email: enteredEmail,
-            password: enteredPassword
-        }
-        axios.post('http://localhost:8080/api/auth/signup', user)
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+    const handleToastShow = (response) => {
+        setShowToast({
+            show: response.show,
+            message: response.message,
+            type: response.type
+        })
+    };
+
+    const handleToastClose = () => {
+        setShowToast({
+            show: false,
+            message: '',
+            type: ''
+        })
     };
 
     const isLogin = props.isLogin;
@@ -39,9 +40,7 @@ const Header = (props) => {
                     <Navbar.Brand href="#home">TodoList</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                     <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="me-auto">
-                            {/*<Button variant={"dark"}>New Task</Button>*/}
-                        </Nav>
+                        <Nav className="me-auto"></Nav>
                         <Nav>
                             {!isLogin && <Button variant={"dark"} onClick={props.onLogin}>Sign In</Button>}
                             {!isLogin && <Button variant={"dark"} onClick={handleRegisterModalShow}>Sign Up</Button>}
@@ -54,7 +53,14 @@ const Header = (props) => {
             {registerUserModalShow && <RegisterUserModal
                 show={registerUserModalShow}
                 onHide={handleRegisterModalClose}
-                onSubmit={registerUserHandler}/>}
+                onShowToast={handleToastShow}
+            />}
+            {showToast.show && <CustomToast
+                show={showToast.show}
+                onClose={handleToastClose}
+                message={showToast.message}
+                bg={showToast.type}
+            />}
         </>
     );
 };
