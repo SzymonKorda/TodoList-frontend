@@ -1,18 +1,30 @@
 import {Button, Container, Nav, Navbar} from "react-bootstrap";
-import {useState} from "react";
-import RegisterUserModal from "../User/RegisterUserModal";
+import {useState, useContext} from "react";
+import RegisterUserModal from "../User/register/RegisterUserModal";
 import CustomToast from "./CustomToast";
+import LoginUserModal from "../User/login/LoginUserModal";
+import UserContext from "../../store/user-context";
 
-const Header = (props) => {
-    const [registerUserModalShow, setRegisterUserModalShow] = useState(false);
+const Header = () => {
+    const [showRegisterUserModal, setShowRegisterUserModal] = useState(false);
+    const [loginUserModalShow, setLoginUserModalShow] = useState(false);
     const [showToast, setShowToast] = useState({show: false, message: '', type: ''})
+    const userCtx = useContext(UserContext);
 
     const handleRegisterModalShow = () => {
-        setRegisterUserModalShow(true);
+        setShowRegisterUserModal(true);
     };
 
     const handleRegisterModalClose = () => {
-        setRegisterUserModalShow(false);
+        setShowRegisterUserModal(false);
+    };
+
+    const handleLoginModalShow = () => {
+        setLoginUserModalShow(true);
+    };
+
+    const handleLoginModalClose = () => {
+        setLoginUserModalShow(false);
     };
 
     const handleToastShow = (response) => {
@@ -31,7 +43,7 @@ const Header = (props) => {
         })
     };
 
-    const isLogin = props.isLogin;
+    // const isLogin = userLogin;
 
     return (
         <>
@@ -42,17 +54,23 @@ const Header = (props) => {
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto"></Nav>
                         <Nav>
-                            {!isLogin && <Button variant={"dark"} onClick={props.onLogin}>Sign In</Button>}
-                            {!isLogin && <Button variant={"dark"} onClick={handleRegisterModalShow}>Sign Up</Button>}
-                            {isLogin && <Button variant={"dark"} disabled>{props.username}</Button>}
-                            {isLogin && <Button variant={"dark"} onClick={props.onLogout}>Logout</Button>}
+                            {!userCtx.isLoggedIn && <Button variant={"dark"} onClick={handleLoginModalShow}>Sign In</Button>}
+                            {!userCtx.isLoggedIn && <Button variant={"dark"} onClick={handleRegisterModalShow}>Sign Up</Button>}
+                            {userCtx.isLoggedIn && <Button variant={"dark"} disabled>{userCtx.displayedUsername}</Button>}
+                            {userCtx.isLoggedIn && <Button variant={"dark"} onClick={userCtx.onLogout}>Logout</Button>}
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-            {registerUserModalShow && <RegisterUserModal
-                show={registerUserModalShow}
+            {showRegisterUserModal && <RegisterUserModal
+                show={showRegisterUserModal}
                 onHide={handleRegisterModalClose}
+                onShowToast={handleToastShow}
+            />}
+            {loginUserModalShow && <LoginUserModal
+                show={loginUserModalShow}
+                onHide={handleLoginModalClose}
+                onLogin={userCtx.onLogin}
                 onShowToast={handleToastShow}
             />}
             {showToast.show && <CustomToast

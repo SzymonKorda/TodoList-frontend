@@ -1,6 +1,6 @@
 import {Modal} from "react-bootstrap";
 import RegisterUserForm from "./RegisterUserForm";
-import ApiService from "../../utils/ApiService";
+import ApiService from "../../../utils/ApiService";
 
 const RegisterUserModal = (props) => {
     const registerUserHandler = (enteredUsername, enteredEmail, enteredPassword) => {
