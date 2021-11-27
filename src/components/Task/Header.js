@@ -1,14 +1,12 @@
 import {Button, Container, Nav, Navbar} from "react-bootstrap";
-import {useState, useContext} from "react";
+import {useContext, useState} from "react";
 import RegisterUserModal from "../User/register/RegisterUserModal";
-import CustomToast from "./CustomToast";
 import LoginUserModal from "../User/login/LoginUserModal";
 import UserContext from "../../store/user-context";
 
 const Header = () => {
     const [showRegisterUserModal, setShowRegisterUserModal] = useState(false);
     const [loginUserModalShow, setLoginUserModalShow] = useState(false);
-    const [showToast, setShowToast] = useState({show: false, message: '', type: ''})
     const userCtx = useContext(UserContext);
 
     const handleRegisterModalShow = () => {
@@ -27,24 +25,6 @@ const Header = () => {
         setLoginUserModalShow(false);
     };
 
-    const handleToastShow = (response) => {
-        setShowToast({
-            show: response.show,
-            message: response.message,
-            type: response.type
-        })
-    };
-
-    const handleToastClose = () => {
-        setShowToast({
-            show: false,
-            message: '',
-            type: ''
-        })
-    };
-
-    // const isLogin = userLogin;
-
     return (
         <>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -54,9 +34,12 @@ const Header = () => {
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto"></Nav>
                         <Nav>
-                            {!userCtx.isLoggedIn && <Button variant={"dark"} onClick={handleLoginModalShow}>Sign In</Button>}
-                            {!userCtx.isLoggedIn && <Button variant={"dark"} onClick={handleRegisterModalShow}>Sign Up</Button>}
-                            {userCtx.isLoggedIn && <Button variant={"dark"} disabled>{userCtx.displayedUsername}</Button>}
+                            {!userCtx.isLoggedIn &&
+                            <Button variant={"dark"} onClick={handleLoginModalShow}>Sign In</Button>}
+                            {!userCtx.isLoggedIn &&
+                            <Button variant={"dark"} onClick={handleRegisterModalShow}>Sign Up</Button>}
+                            {userCtx.isLoggedIn &&
+                            <Button variant={"dark"} disabled>{userCtx.displayedUsername}</Button>}
                             {userCtx.isLoggedIn && <Button variant={"dark"} onClick={userCtx.onLogout}>Logout</Button>}
                         </Nav>
                     </Navbar.Collapse>
@@ -65,19 +48,13 @@ const Header = () => {
             {showRegisterUserModal && <RegisterUserModal
                 show={showRegisterUserModal}
                 onHide={handleRegisterModalClose}
-                onShowToast={handleToastShow}
+                onShowToast={userCtx.onShowToast}
             />}
             {loginUserModalShow && <LoginUserModal
                 show={loginUserModalShow}
                 onHide={handleLoginModalClose}
                 onLogin={userCtx.onLogin}
-                onShowToast={handleToastShow}
-            />}
-            {showToast.show && <CustomToast
-                show={showToast.show}
-                onClose={handleToastClose}
-                message={showToast.message}
-                bg={showToast.type}
+                onShowToast={userCtx.onShowToast}
             />}
         </>
     );

@@ -5,6 +5,7 @@ const UserContext = React.createContext({
     onLogin: (username, token) => {},
     onLogout: () => {},
     displayedUsername: '',
+    onShowToast: (response) => {}
 });
 
 export default UserContext;

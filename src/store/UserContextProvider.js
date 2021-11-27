@@ -1,9 +1,11 @@
 import {useEffect, useState} from "react";
 import UserContext from "./user-context";
+import CustomToast from "../components/Task/CustomToast";
 
 const UserContextProvider = props => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [displayedUsername, setDisplayedUsername] = useState('');
+    const [showToast, setShowToast] = useState({show: false, message: '', type: ''})
 
     useEffect(() => {
         const isUserLoggedIn = localStorage.getItem('isLoggedIn');
@@ -28,6 +30,28 @@ const UserContextProvider = props => {
         localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('username');
         setIsLoggedIn(false);
+        const response = {
+            show: true,
+            message: 'User logout successfully!',
+            type: 'success'
+        }
+        showToastHandler(response);
+    };
+
+    const showToastHandler = (response) => {
+        setShowToast({
+            show: response.show,
+            message: response.message,
+            type: response.type
+        })
+    };
+
+    const closeToastHandler = () => {
+        setShowToast({
+            show: false,
+            message: '',
+            type: ''
+        })
     };
 
     return (
@@ -36,9 +60,16 @@ const UserContextProvider = props => {
                 isLoggedIn: isLoggedIn,
                 displayedUsername: displayedUsername,
                 onLogin: loginHandler,
-                onLogout: logoutHandler
+                onLogout: logoutHandler,
+                onShowToast: showToastHandler,
             }}>
             {props.children}
+            {showToast.show && <CustomToast
+                show={showToast.show}
+                onClose={closeToastHandler}
+                message={showToast.message}
+                bg={showToast.type}
+            />}
         </UserContext.Provider>
     );
 };
