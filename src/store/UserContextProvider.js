@@ -38,6 +38,7 @@ const UserContextProvider = props => {
         showToastHandler(response);
     };
 
+    //TODO Toasts stacking
     const showToastHandler = (response) => {
         setShowToast({
             show: response.show,

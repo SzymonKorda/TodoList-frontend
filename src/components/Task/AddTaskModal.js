@@ -26,7 +26,7 @@ const AddTaskModal = (props) => {
                 props.onShowToast({
                     show: true,
                     message: error.response.data,
-                    type: 'success'
+                    type: 'danger'
                 })
             })
         props.onHide();

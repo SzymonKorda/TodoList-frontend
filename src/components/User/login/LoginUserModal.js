@@ -14,7 +14,7 @@ const LoginUserModal = (props) => {
                 props.onShowToast({
                     show: true,
                     //TODO: add error message on server side
-                    message: "User logged successfully",
+                    message: "User logged successfully!",
                     type: 'success'
                 })
                 const token = response.data.accessToken;

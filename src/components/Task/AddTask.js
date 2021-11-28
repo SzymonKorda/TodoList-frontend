@@ -22,6 +22,25 @@ const AddTask = (props) => {
         getUserTasks();
     };
 
+    const removeTask = (id) => {
+        setUserTasks(((prevState) => {
+            return prevState.filter((task) => {
+                return task.id !== id;
+            })
+        }))
+    };
+
+    const updateTask = (updatedTask) => {
+        setUserTasks((prevState) => {
+           const taskToUpdateIndex =  prevState.findIndex((task) => {
+               return task.id === updatedTask.id;
+           })
+            let updatedTasks = [...prevState];
+            updatedTasks[taskToUpdateIndex] = updatedTask;
+            return updatedTasks;
+        });
+    };
+
     const getUserTasks = () => {
         ApiService.get('task', {
             headers: {
@@ -58,7 +77,13 @@ const AddTask = (props) => {
                     </div>
                 </Row>
             </Container>
-            {props.isLoggedIn && <TaskItemList tasks={userTasks}/>}
+            {props.isLoggedIn &&
+            <TaskItemList
+                tasks={userTasks}
+                onShowToast={userCtx.onShowToast}
+                onRemove={removeTask}
+                onUpdate={updateTask}
+            />}
             {newTaskModalShow && <AddTaskModal
                 show={newTaskModalShow}
                 onHide={handleTaskModalClose}
