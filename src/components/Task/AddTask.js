@@ -8,7 +8,7 @@ import UserContext from "../../store/user-context";
 const AddTask = (props) => {
     const userCtx = useContext(UserContext);
     const [newTaskModalShow, setNewTaskModalShow] = useState(false);
-    const [userTasks, setUserTasks] = useState([]);
+    const [userActiveTasks, setUserActiveTasks] = useState([]);
 
     const handleTaskModalShow = () => {
         setNewTaskModalShow(true);
@@ -19,11 +19,11 @@ const AddTask = (props) => {
     }
 
     const addTask = () => {
-        getUserTasks();
+        getUserActiveTasks();
     };
 
     const removeTask = (id) => {
-        setUserTasks(((prevState) => {
+        setUserActiveTasks(((prevState) => {
             return prevState.filter((task) => {
                 return task.id !== id;
             })
@@ -31,7 +31,7 @@ const AddTask = (props) => {
     };
 
     const updateTask = (updatedTask) => {
-        setUserTasks((prevState) => {
+        setUserActiveTasks((prevState) => {
            const taskToUpdateIndex =  prevState.findIndex((task) => {
                return task.id === updatedTask.id;
            })
@@ -41,15 +41,20 @@ const AddTask = (props) => {
         });
     };
 
-    const getUserTasks = () => {
+    const getUserActiveTasks = () => {
         ApiService.get('task', {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         })
             .then((response) => {
-                // console.log(response.data);
-                setUserTasks(response.data)
+                //TODO why active instead of isActive => check getUserTasks on backend
+                console.log(response.data);
+                let taskList = response.data;
+                taskList = taskList.filter((task) => {
+                    return task.active
+                })
+                setUserActiveTasks(taskList);
             })
             .catch((error) => {
                 console.log(error);
@@ -57,7 +62,7 @@ const AddTask = (props) => {
     };
 
     useEffect(() => {
-        getUserTasks();
+        getUserActiveTasks();
     }, []);
 
     return (
@@ -67,7 +72,7 @@ const AddTask = (props) => {
                     <div className="h-100 p-5 bg-secondary">
                         <h2>The best task managing App</h2>
                         <p>Manage your tasks fast and easily</p>
-                        {props.isLoggedIn && <Button
+                        {userCtx.isLoggedIn && <Button
                             variant="dark"
                             size="lg"
                             onClick={handleTaskModalShow}
@@ -77,12 +82,13 @@ const AddTask = (props) => {
                     </div>
                 </Row>
             </Container>
-            {props.isLoggedIn &&
+            {userCtx.isLoggedIn &&
             <TaskItemList
-                tasks={userTasks}
+                tasks={userActiveTasks}
                 onShowToast={userCtx.onShowToast}
                 onRemove={removeTask}
                 onUpdate={updateTask}
+                onFinish={addTask}
             />}
             {newTaskModalShow && <AddTaskModal
                 show={newTaskModalShow}

@@ -1,8 +1,6 @@
-import {useState} from "react";
 import {Col, Container, Row} from "react-bootstrap";
 import TaskItem from "./TaskItem";
 import ApiService from "../../utils/ApiService";
-import UpdateTaskModal from "./UpdateTaskModal";
 
 const TaskItemList = (props) => {
     const removeTaskHandler = (id) => {
@@ -41,7 +39,30 @@ const TaskItemList = (props) => {
                 props.onUpdate(updatedTask);
                 props.onShowToast({
                     show: true,
-                    message: response.data.message,
+                    message: response.data,
+                    type: 'success'
+                });
+            })
+            .catch((error) => {
+                props.onShowToast({
+                    show: true,
+                    message: error.response.data,
+                    type: 'danger'
+                })
+            })
+    };
+
+    const finishTaskHandler = (id) => {
+        ApiService.post(`task/${id}/finish`, {}, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+            .then((response) => {
+                props.onFinish();
+                props.onShowToast({
+                    show: true,
+                    message: response.data,
                     type: 'success'
                 });
             })
@@ -67,6 +88,7 @@ const TaskItemList = (props) => {
                                 description={task.description}
                                 onRemove={removeTaskHandler.bind(null, task.id)}
                                 onUpdate={updateTaskHandler}
+                                onFinish={finishTaskHandler.bind(null, task.id)}
                                 task={task}
                             />
                         </Col>

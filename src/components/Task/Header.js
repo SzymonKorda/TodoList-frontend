@@ -3,6 +3,7 @@ import {useContext, useState} from "react";
 import RegisterUserModal from "../User/register/RegisterUserModal";
 import LoginUserModal from "../User/login/LoginUserModal";
 import UserContext from "../../store/user-context";
+import {Link} from "react-router-dom";
 
 const Header = () => {
     const [showRegisterUserModal, setShowRegisterUserModal] = useState(false);
@@ -29,10 +30,13 @@ const Header = () => {
         <>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container fluid>
-                    <Navbar.Brand href="#home">TodoList</Navbar.Brand>
+                    <Navbar.Brand  href="#home">TodoList</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                     <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="me-auto"></Nav>
+                        <Nav className="me-auto">
+                            {userCtx.isLoggedIn && <Link to={"/active"} className="nav-link">Active tasks</Link>}
+                            {userCtx.isLoggedIn && <Link to={"/finished"} className="nav-link">Finished tasks</Link>}
+                        </Nav>
                         <Nav>
                             {!userCtx.isLoggedIn &&
                             <Button variant={"dark"} onClick={handleLoginModalShow}>Sign In</Button>}

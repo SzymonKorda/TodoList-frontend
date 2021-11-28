@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import UserContext from "./user-context";
 import CustomToast from "../components/Task/CustomToast";
+import {useHistory} from 'react-router-dom';
 
 const UserContextProvider = props => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -16,12 +17,19 @@ const UserContextProvider = props => {
         }
     }, [])
 
+    const history = useHistory();
+
+    const routeChange = (path) => {
+        history.push(path);
+    };
+
     const loginHandler = (username, token) => {
         setIsLoggedIn(true);
         localStorage.setItem('isLoggedIn', '1');
         setDisplayedUsername(username);
         localStorage.setItem('username', username);
         localStorage.setItem('token', token);
+        routeChange('/active');
     };
 
     //TODO: add logout toast notification
@@ -36,6 +44,7 @@ const UserContextProvider = props => {
             type: 'success'
         }
         showToastHandler(response);
+        routeChange('/home');
     };
 
     //TODO Toasts stacking

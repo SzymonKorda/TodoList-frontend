@@ -28,7 +28,7 @@ const TaskItem = (props) => {
                 <Card.Body>
                     <Card.Title>{props.title}</Card.Title>
                     <Card.Text>{props.description}</Card.Text>
-                    <Button variant={"success"}>Done</Button>
+                    <Button variant={"success"} onClick={props.onFinish}>Finish</Button>
                     <Button variant={"warning"} onClick={handleUpdateTaskModalShow}>Update</Button>
                     <Button variant={"danger"} onClick={props.onRemove}>Delete</Button>
                 </Card.Body>
