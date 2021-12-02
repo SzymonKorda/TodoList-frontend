@@ -30,7 +30,7 @@ const Header = () => {
         <>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container fluid>
-                    <Navbar.Brand  href="#home">TodoList</Navbar.Brand>
+                    <Navbar.Brand  href="/home">TodoList</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
@@ -39,9 +39,9 @@ const Header = () => {
                         </Nav>
                         <Nav>
                             {!userCtx.isLoggedIn &&
-                            <Button variant={"dark"} onClick={handleLoginModalShow}>Sign In</Button>}
+                            <Button variant={"dark"} onClick={handleLoginModalShow}>Sign in</Button>}
                             {!userCtx.isLoggedIn &&
-                            <Button variant={"dark"} onClick={handleRegisterModalShow}>Sign Up</Button>}
+                            <Button variant={"dark"} onClick={handleRegisterModalShow}>Register</Button>}
                             {userCtx.isLoggedIn &&
                             <Button variant={"dark"} disabled>{userCtx.displayedUsername}</Button>}
                             {userCtx.isLoggedIn && <Button variant={"dark"} onClick={userCtx.onLogout}>Logout</Button>}
