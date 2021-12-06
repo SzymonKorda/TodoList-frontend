@@ -1,46 +1,25 @@
 import {Modal} from "react-bootstrap";
 import LoginUserForm from "./LoginUserForm";
 import ApiService from "../../../utils/ApiService";
+import {toast} from "react-toastify";
 
 const LoginUserModal = (props) => {
     const loginUserHandler = (enteredUsername, enteredPassword) => {
-        //TODO: validation
         const credentials = {
             username: enteredUsername,
             password: enteredPassword
         }
         ApiService.post('auth/signin', credentials)
             .then((response) => {
-                props.onShowToast({
-                    show: true,
-                    //TODO: add error message on server side
-                    message: "User logged successfully!",
-                    type: 'success'
-                })
+                toast.success('User logged successfully!');
                 const token = response.data.accessToken;
                 const username = response.data.username;
+                props.onHide();
                 props.onLogin(username, token)
-                // axios.get('http://localhost:8080/api/task', {
-                //     headers: {
-                //         'Authorization': 'Bearer ' + localStorage.getItem('Token')
-                //     }
-                // })
-                //     .then((response) => {
-                //         console.log(response.data);
-                //         // setTaskList(response.data);
-                //     })
-                //     .catch((error) => {
-                //         console.log(error);
-                //     })
             })
             .catch((error) => {
-                props.onShowToast({
-                    show: true,
-                    message: error.response.data.message,
-                    type: 'danger'
-                })
+                toast.error(error.response.data.message);
             })
-        props.onHide();
     };
 
     return (

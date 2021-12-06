@@ -1,6 +1,8 @@
 import {Modal} from "react-bootstrap";
 import RegisterUserForm from "./RegisterUserForm";
 import ApiService from "../../../utils/ApiService";
+import {toast, ToastContainer} from "react-toastify";
+import React from "react";
 
 const RegisterUserModal = (props) => {
     const registerUserHandler = (enteredUsername, enteredEmail, enteredPassword) => {
@@ -11,21 +13,12 @@ const RegisterUserModal = (props) => {
         }
         ApiService.post('auth/signup', user)
             .then((response) => {
-                props.onShowToast({
-                    show: true,
-                    message: response.data.message,
-                    type: 'success'
-                })
+                toast.success('User registered successfully!');
+                props.onHide();
             })
-            //TODO: add error message on server side
             .catch((error) => {
-                props.onShowToast({
-                    show: true,
-                    message: error.response.data.message,
-                    type: 'danger'
-                })
-            })
-        props.onHide();
+                toast.error(error.response.data.message);
+            });
     };
 
     const registerModal =

@@ -1,6 +1,7 @@
 import {Modal} from "react-bootstrap";
 import AddTaskForm from "./AddTaskForm";
 import ApiService from "../../utils/ApiService";
+import {toast} from "react-toastify";
 
 const AddTaskModal = (props) => {
     const addTaskHandler = (enteredTitle, enteredDescription) => {
@@ -14,22 +15,13 @@ const AddTaskModal = (props) => {
             }
         })
             .then((response) => {
+                toast.success(response.data)
+                props.onHide();
                 props.onAddTask();
-                console.log(response.data);
-                props.onShowToast({
-                    show: true,
-                    message: response.data,
-                    type: 'success'
-                })
             })
             .catch((error) => {
-                props.onShowToast({
-                    show: true,
-                    message: error.response.data,
-                    type: 'danger'
-                })
+                toast.error(error.response.data);
             })
-        props.onHide();
     };
 
     return (

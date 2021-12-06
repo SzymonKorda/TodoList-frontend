@@ -1,6 +1,8 @@
-import {Col, Container, Row} from "react-bootstrap";
+import {Alert, Button, Col, Container, Row} from "react-bootstrap";
 import TaskItem from "./TaskItem";
 import ApiService from "../../utils/ApiService";
+import {toast} from "react-toastify";
+import {useState} from "react";
 
 const TaskItemList = (props) => {
     const removeTaskHandler = (id) => {
@@ -10,19 +12,11 @@ const TaskItemList = (props) => {
             }
         })
             .then((response) => {
+                toast.error(response.data);
                 props.onRemove(id);
-                props.onShowToast({
-                    show: true,
-                    message: response.data,
-                    type: 'success'
-                });
             })
             .catch((error) => {
-                props.onShowToast({
-                    show: true,
-                    message: error.response.data,
-                    type: 'danger'
-                })
+                toast.error(error.response.data);
             })
     };
 
@@ -36,19 +30,11 @@ const TaskItemList = (props) => {
             }
         })
             .then((response) => {
+                toast.warning(response.data);
                 props.onUpdate(updatedTask);
-                props.onShowToast({
-                    show: true,
-                    message: response.data,
-                    type: 'success'
-                });
             })
             .catch((error) => {
-                props.onShowToast({
-                    show: true,
-                    message: error.response.data,
-                    type: 'danger'
-                })
+                toast.error(error.response.data);
             })
     };
 
@@ -59,19 +45,11 @@ const TaskItemList = (props) => {
             }
         })
             .then((response) => {
+                toast.success(response.data);
                 props.onFinish();
-                props.onShowToast({
-                    show: true,
-                    message: response.data,
-                    type: 'success'
-                });
             })
             .catch((error) => {
-                props.onShowToast({
-                    show: true,
-                    message: error.response.data,
-                    type: 'danger'
-                })
+                toast.error(error.response.data);
             })
     };
 

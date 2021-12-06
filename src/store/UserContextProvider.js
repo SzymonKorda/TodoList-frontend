@@ -1,7 +1,7 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import UserContext from "./user-context";
-import CustomToast from "../components/Task/CustomToast";
 import {useHistory} from 'react-router-dom';
+import {toast} from "react-toastify";
 
 const UserContextProvider = props => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -32,36 +32,13 @@ const UserContextProvider = props => {
         routeChange('/active');
     };
 
-    //TODO: add logout toast notification
     const logoutHandler = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('username');
         setIsLoggedIn(false);
-        const response = {
-            show: true,
-            message: 'User logout successfully!',
-            type: 'success'
-        }
-        showToastHandler(response);
+        toast.success('User logout successfully!');
         routeChange('/home');
-    };
-
-    //TODO Toasts stacking
-    const showToastHandler = (response) => {
-        setShowToast({
-            show: response.show,
-            message: response.message,
-            type: response.type
-        })
-    };
-
-    const closeToastHandler = () => {
-        setShowToast({
-            show: false,
-            message: '',
-            type: ''
-        })
     };
 
     return (
@@ -70,16 +47,9 @@ const UserContextProvider = props => {
                 isLoggedIn: isLoggedIn,
                 displayedUsername: displayedUsername,
                 onLogin: loginHandler,
-                onLogout: logoutHandler,
-                onShowToast: showToastHandler,
+                onLogout: logoutHandler
             }}>
             {props.children}
-            {showToast.show && <CustomToast
-                show={showToast.show}
-                onClose={closeToastHandler}
-                message={showToast.message}
-                bg={showToast.type}
-            />}
         </UserContext.Provider>
     );
 };
