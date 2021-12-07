@@ -4,14 +4,6 @@ import * as Yup from "yup";
 import {useFormik} from "formik";
 
 const UpdateTaskForm = (props) => {
-    // const titleInputRef = useRef();
-    // const descriptionInputRef = useRef();
-
-    // useEffect(() => {
-    //     titleInputRef.current.value = props.task.title;
-    //     descriptionInputRef.current.value = props.task.description;
-    // }, [props.task])
-
     const validationSchema = Yup.object().shape({
         title: Yup.string()
             .required("Title is required")
@@ -28,7 +20,7 @@ const UpdateTaskForm = (props) => {
         },
         validationSchema,
         onSubmit: (event) => {
-            const enteredTitle= formik.values.title;
+            const enteredTitle = formik.values.title;
             const enteredDescription = formik.values.description;
             props.onSubmit(enteredTitle, enteredDescription)
         }
@@ -36,7 +28,7 @@ const UpdateTaskForm = (props) => {
 
     return (
         <Form noValidate onSubmit={formik.handleSubmit}>
-            <Form.Group className="mb-3" controlId="updateTitle">
+            <Form.Group className="mb-3" controlId="title">
                 <Form.Label>Title</Form.Label>
                 <Form.Control
                     type="text"
@@ -48,7 +40,7 @@ const UpdateTaskForm = (props) => {
                 />
                 <Form.Control.Feedback type={'invalid'}>{formik.errors.title}</Form.Control.Feedback>
             </Form.Group>
-            <Form.Group className="mb-3" controlId="updateDescription">
+            <Form.Group className="mb-3" controlId="description">
                 <Form.Label>Description</Form.Label>
                 <Form.Control
                     as="textarea"
