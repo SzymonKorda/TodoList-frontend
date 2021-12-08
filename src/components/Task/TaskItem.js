@@ -1,10 +1,19 @@
 import {Button, Card} from "react-bootstrap";
 import {useState} from "react";
 import UpdateTaskModal from "./UpdateTaskModal";
-import ApiService from "../../utils/ApiService";
+import DeleteTaskWarningModal from "./DeleteTaskWarningModal";
 
 const TaskItem = (props) => {
     const [updateTaskModalShow, setUpdateTaskModalShow] = useState(false);
+    const [deleteTaskModalShow, setDeleteTaskModalShow] = useState(false);
+
+    const handleDeleteTaskModalShow = () => {
+        setDeleteTaskModalShow(true);
+    };
+
+    const handleDeleteTaskModalClose = () => {
+        setDeleteTaskModalShow(false);
+    }
 
     const handleUpdateTaskModalShow = () => {
         setUpdateTaskModalShow(true);
@@ -30,7 +39,7 @@ const TaskItem = (props) => {
                     <Card.Text>{props.description}</Card.Text>
                     <Button variant={"success"} onClick={props.onFinish}>Finish</Button>
                     <Button variant={"warning"} onClick={handleUpdateTaskModalShow}>Update</Button>
-                    <Button variant={"danger"} onClick={props.onRemove}>Delete</Button>
+                    <Button variant={"danger"} onClick={handleDeleteTaskModalShow}>Delete</Button>
                 </Card.Body>
             </Card>
             {updateTaskModalShow && <UpdateTaskModal
@@ -38,6 +47,11 @@ const TaskItem = (props) => {
                 onHide={handleUpdateTaskModalClose}
                 task={props.task}
                 onSubmit={updateTask}
+            />}
+            {deleteTaskModalShow && <DeleteTaskWarningModal
+                show={deleteTaskModalShow}
+                onHide={handleDeleteTaskModalClose}
+                onConfirm={props.onRemove}
             />}
         </>
 
