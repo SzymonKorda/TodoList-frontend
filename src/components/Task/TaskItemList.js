@@ -1,4 +1,4 @@
-import {Alert, Button, Col, Container, Row} from "react-bootstrap";
+import {Alert, Button, CardGroup, Col, Container, Row} from "react-bootstrap";
 import TaskItem from "./TaskItem";
 import ApiService from "../../utils/ApiService";
 import {toast} from "react-toastify";
@@ -58,20 +58,20 @@ const TaskItemList = (props) => {
             <Container fluid className={'mb-4'} style={{
                 backgroundColor: '#817f7f'
             }}>
-                <Row xs={3} className="g-4 ">
-                    {props.tasks.map((task) => (
-                        <Col key={task.id}>
-                            <TaskItem
-                                title={task.title}
-                                description={task.description}
-                                onRemove={removeTaskHandler.bind(null, task.id)}
-                                onUpdate={updateTaskHandler}
-                                onFinish={finishTaskHandler.bind(null, task.id)}
-                                task={task}
-                            />
-                        </Col>
-                    ))}
-                </Row>
+                    <Row xs={1} md={3} className="g-4 ">
+                        {props.tasks.map((task) => (
+                            <Col key={task.id}>
+                                <TaskItem
+                                    title={task.title}
+                                    description={task.description}
+                                    onRemove={removeTaskHandler.bind(null, task.id)}
+                                    onUpdate={updateTaskHandler}
+                                    onFinish={finishTaskHandler.bind(null, task.id)}
+                                    task={task}
+                                />
+                            </Col>
+                        ))}
+                    </Row>
             </Container>
         </>
 
