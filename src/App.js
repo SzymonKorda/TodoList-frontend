@@ -1,11 +1,13 @@
 import './App.css';
 import Header from "./components/Task/Header";
 import AddTask from "./components/Task/AddTask";
-import {Route, Switch} from "react-router-dom";
+import {Route, Switch, Redirect} from "react-router-dom";
 import Home from "./components/Task/Home";
 import FinishedTaskList from "./components/Task/FinishedTaskList";
 import {ToastContainer} from "react-toastify";
-import React from "react";
+import React, {useContext} from "react";
+import UserContext from "./store/user-context";
+import ProtectedRoute from "./components/Task/ProtectedRoute";
 
 const App = () => {
     return (
@@ -25,10 +27,11 @@ const App = () => {
                 progress={undefined}
             />
             <Header/>
+            {/*TODO safe router links*/}
             <Switch>
-                <Route path="/active" component={AddTask}/>
-                <Route path="/finished" component={FinishedTaskList}/>
-                <Route path={["/", "/home"]} component={Home}/>
+                <Route exact path={["/", "/home"]} component={Home}/>
+                <ProtectedRoute exact path="/active" component={AddTask}/>
+                <ProtectedRoute exact path="/finished" component={FinishedTaskList}/>
             </Switch>
         </div>
     )

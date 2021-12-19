@@ -36,13 +36,20 @@ const TaskItem = (props) => {
                 <Card.Header></Card.Header>
                 <Card.Body>
                     <Card.Title>{props.title}</Card.Title>
-                    <Card.Text>{props.description}</Card.Text>
-                    <div className={"d-flex align-items-end"}>
-                        <Button variant={"success"} onClick={props.onFinish}>Finish</Button>
-                        <Button variant={"warning"} onClick={handleUpdateTaskModalShow}>Update</Button>
-                        <Button variant={"danger"} onClick={handleDeleteTaskModalShow}>Delete</Button>
-                    </div>
+                    <Card.Text style={{ height: "50px", overflow: "hidden" }}>{props.description}</Card.Text>
+                    {/*<div className={"d-flex align-items-end"}>*/}
+                    {/*    <Button variant={"success"} onClick={props.onFinish}>Finish</Button>*/}
+                    {/*    <Button variant={"warning"} onClick={handleUpdateTaskModalShow}>Update</Button>*/}
+                    {/*    <Button variant={"danger"} onClick={handleDeleteTaskModalShow}>Delete</Button>*/}
+                    {/*</div>*/}
                 </Card.Body>
+                <Card.Footer>
+                    {/*<div className={"d-flex align-items-end"}>*/}
+                    <Button variant={"success"} onClick={props.onFinish}>Finish</Button>
+                    <Button variant={"warning"} onClick={handleUpdateTaskModalShow}>Update</Button>
+                    <Button variant={"danger"} onClick={handleDeleteTaskModalShow}>Delete</Button>
+                    {/*</div>*/}
+                </Card.Footer>
             </Card>
             {updateTaskModalShow && <UpdateTaskModal
                 show={updateTaskModalShow}

@@ -54,7 +54,7 @@ const TaskItemList = (props) => {
     };
 
     return (
-        <>
+        // <>
             <Container fluid className={'mb-4'} style={{
                 backgroundColor: '#817f7f'
             }}>
@@ -73,7 +73,7 @@ const TaskItemList = (props) => {
                         ))}
                     </Row>
             </Container>
-        </>
+        // </>
 
     );
 };

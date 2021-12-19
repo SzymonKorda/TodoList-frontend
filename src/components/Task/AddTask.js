@@ -4,7 +4,6 @@ import AddTaskModal from "./AddTaskModal";
 import TaskItemList from "./TaskItemList";
 import ApiService from "../../utils/ApiService";
 import UserContext from "../../store/user-context";
-import {ToastContainer} from "react-toastify";
 
 const AddTask = (props) => {
     const userCtx = useContext(UserContext);
