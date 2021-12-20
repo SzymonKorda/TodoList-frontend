@@ -2,8 +2,72 @@ import {useState, useEffect} from "react";
 import {Button, Container, Table} from "react-bootstrap";
 import ApiService from "../../utils/ApiService";
 import {toast} from "react-toastify";
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
 
 const FinishedTaskList = () => {
+    const buttonFormatter = (id) => {
+        return (
+            <Button
+                variant={"danger"}
+                size={"sm"}
+                onClick={removeTaskHandler.bind(null, id)}>
+                Delete
+            </Button>
+        );
+    }
+
+    const columns = [
+        {
+            dataField: 'id',
+            text: 'id',
+            hidden: true
+        },
+        {
+            dataField: 'title',
+            text: 'Title',
+            style: {
+                overflow: 'hidden',
+                textOverflow: "ellipsis"
+            }
+            // headerStyle:{minWidth: '200px'}
+        }, {
+            dataField: 'description',
+            text: 'Description',
+            headerStyle: {
+                overflow: 'hidden',
+                textOverflow: "ellipsis"
+            },
+            style: {
+                // backgroundColor: '#c8e6c9',
+                overflow: 'hidden',
+                textOverflow: "ellipsis"
+            }
+        }, {
+            dataField: 'createdOn',
+            text: 'Created On'
+        }, {
+            dataField: 'finishedOn',
+            text: 'Finished On'
+        }, {
+            dataField: 'action',
+            text: 'Action',
+            style: {
+                textAlign: "center"
+            },
+            // classes: "d-flex justify-content-center",
+            formatter: (cellContent, row) => {
+                return (
+                    <Button
+                        variant={"danger"}
+                        size={"sm"}
+                        onClick={removeTaskHandler.bind(null, row.id)}>
+                        Delete
+                    </Button>
+                );
+            }
+        }];
+
     const [userFinishedTasks, setUserFinishedTasks] = useState([]);
 
     useEffect(() => {
@@ -45,36 +109,22 @@ const FinishedTaskList = () => {
             })
     };
 
+    const pagination = paginationFactory({
+        page: 2,
+        sizePerPage: 5
+    });
+
     return (
         <Container className={'mt-5'}>
-            <Table striped bordered hover variant={"dark"}>
-                <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Created On</th>
-                    <th>Finished On</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                {userFinishedTasks.map((task) => (
-                    <tr key={task.id}>
-                        <td>{task.title}</td>
-                        <td>{task.description}</td>
-                        <td>{task.createdOn}</td>
-                        <td>{task.finishedOn}</td>
-                        <td>
-                            <Button
-                                variant={"danger"}
-                                size={"sm"}
-                                onClick={removeTaskHandler.bind(null, task.id)}>
-                                Delete</Button>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </Table>
+            <BootstrapTable
+                classes={"table-dark"}
+                keyField='id'
+                data={userFinishedTasks}
+                columns={columns}
+                bordered
+                hover
+                pagination={pagination}
+                striped/>
         </Container>
     );
 };
