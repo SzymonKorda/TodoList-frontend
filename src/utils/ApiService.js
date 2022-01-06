@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL: 'https://todolist-backend.cytr.us/api/'
+    baseURL: 'http://localhost:8080/api'
 })

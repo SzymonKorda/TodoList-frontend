@@ -1,11 +1,40 @@
-import {useState, useEffect} from "react";
-import {Button, Container, Table} from "react-bootstrap";
+import React, {useState, useEffect} from "react";
+import {Button, Col, Container, Row, Table} from "react-bootstrap";
 import ApiService from "../../utils/ApiService";
 import {toast} from "react-toastify";
 import BootstrapTable from 'react-bootstrap-table-next';
-import paginationFactory from 'react-bootstrap-table2-paginator';
+import paginationFactory, {
+    PaginationProvider,
+    PaginationListStandalone,
+    SizePerPageDropdownStandalone,
+    PaginationTotalStandalone
+} from 'react-bootstrap-table2-paginator';
+import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit';
+import AddTaskModal from "./AddTaskModal";
+import FullTaskInfoModal from "./FullTaskInfoModal";
+
 
 const FinishedTaskList = () => {
+    const [fullTaskInfoModalShow, setFullTaskInfoModalShow] = useState({
+        show: false,
+        task: {}
+    });
+
+    const handleFullTaskInfoModalShow = (task) => {
+        setFullTaskInfoModalShow({
+            show: true,
+            task: task
+        });
+    };
+
+    const handleFullTaskInfoModalClose = () => {
+        setFullTaskInfoModalShow({
+            show: false,
+            task: null
+        });
+    }
+
+    const {SearchBar} = Search;
     const buttonFormatter = (id) => {
         return (
             <Button
@@ -26,14 +55,16 @@ const FinishedTaskList = () => {
         {
             dataField: 'title',
             text: 'Title',
+            sort: true,
             style: {
                 overflow: 'hidden',
                 textOverflow: "ellipsis"
-            }
+            },
             // headerStyle:{minWidth: '200px'}
         }, {
             dataField: 'description',
             text: 'Description',
+            sort: true,
             headerStyle: {
                 overflow: 'hidden',
                 textOverflow: "ellipsis"
@@ -45,10 +76,12 @@ const FinishedTaskList = () => {
             }
         }, {
             dataField: 'createdOn',
-            text: 'Created On'
+            text: 'Created On',
+            sort: true,
         }, {
             dataField: 'finishedOn',
-            text: 'Finished On'
+            text: 'Finished On',
+            sort: true,
         }, {
             dataField: 'action',
             text: 'Action',
@@ -110,22 +143,112 @@ const FinishedTaskList = () => {
     };
 
     const pagination = paginationFactory({
-        page: 2,
-        sizePerPage: 5
+        custom: true,
+        sizePerPageList: [
+            {
+                text: '5', value: 5
+            },
+            {
+                text: '10', value: 10
+            },
+            {
+                text: '15', value: 15
+            }
+        ]
+
     });
 
+    const getFullTaskInfo = (id) => {
+        ApiService.get(`task/${id}`, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+            .then((response) => {
+                console.log(response.data);
+                handleFullTaskInfoModalShow(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    };
+
+    const rowEvents = {
+        onClick: (e, row, rowIndex) => {
+            getFullTaskInfo(row.id);
+        }
+    };
+
     return (
-        <Container className={'mt-5'}>
-            <BootstrapTable
-                classes={"table-dark"}
+        <>
+            <ToolkitProvider
                 keyField='id'
                 data={userFinishedTasks}
                 columns={columns}
-                bordered
-                hover
-                pagination={pagination}
-                striped/>
-        </Container>
+                search
+
+            >
+                {
+                    props => (
+                        <PaginationProvider pagination={pagination}>
+                            {
+                                (
+                                    {
+                                        paginationProps,
+                                        paginationTableProps
+                                    }
+                                ) => (
+                                    <Container className={'mt-5'}>
+                                        <Row>
+                                            <Col>
+                                                <SearchBar  {...props.searchProps} srText={null}/>
+                                            </Col>
+                                            <Col>
+                                            </Col>
+                                            <Col>
+                                                <PaginationListStandalone className={"bg-black"} {...paginationProps}/>
+                                            </Col>
+                                        </Row>
+                                        <BootstrapTable
+                                            {...props.baseProps}
+                                            classes={"table-dark mt-1"}
+                                            bordered
+                                            hover
+                                            striped
+                                            bootstrap4
+                                            rowEvents={rowEvents}
+                                            {...paginationTableProps}
+                                        />
+                                        <SizePerPageDropdownStandalone
+                                            {...paginationProps}
+                                        />
+                                        <PaginationTotalStandalone {...paginationProps}/>
+                                    </Container>
+                                )
+                            }
+                        </PaginationProvider>
+                    )
+                }
+            </ToolkitProvider>
+
+            {fullTaskInfoModalShow.show && <FullTaskInfoModal
+                show={fullTaskInfoModalShow.show}
+                onHide={handleFullTaskInfoModalClose}
+                task={fullTaskInfoModalShow.task}
+            />}
+        </>
+
+        // <BootstrapTable
+        // classes={"table-dark"}
+        // keyField='id'
+        // data={userFinishedTasks}
+        // columns={columns}
+        // bordered
+        // hover
+        // pagination={pagination}
+        // striped
+        // search
+        // />}
     );
 };
 
