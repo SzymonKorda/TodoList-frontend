@@ -21,10 +21,10 @@ const TaskItemList = (props) => {
     };
 
     const updateTaskHandler = (updatedTask) => {
-        ApiService.put(`task/${updatedTask.id}`,  {
+        ApiService.put(`task/${updatedTask.id}`, {
             title: updatedTask.title,
             description: updatedTask.description
-        },   {
+        }, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
@@ -55,24 +55,24 @@ const TaskItemList = (props) => {
 
     return (
         // <>
-            <Container fluid className={'mb-4'} style={{
-                backgroundColor: '#817f7f'
-            }}>
-                    <Row xs={1} md={3} className="g-4 ">
-                        {props.tasks.map((task) => (
-                            <Col key={task.id}>
-                                <TaskItem
-                                    title={task.title}
-                                    description={task.description}
-                                    onRemove={removeTaskHandler.bind(null, task.id)}
-                                    onUpdate={updateTaskHandler}
-                                    onFinish={finishTaskHandler.bind(null, task.id)}
-                                    task={task}
-                                />
-                            </Col>
-                        ))}
-                    </Row>
-            </Container>
+        <Container fluid className={'mb-4'} style={{
+            backgroundColor: '#817f7f'
+        }}>
+            <Row xs={1} md={3} className="g-4 ">
+                {props.tasks.map((task) => (
+                    <Col key={task.id}>
+                        <TaskItem
+                            title={task.title}
+                            description={task.description}
+                            onRemove={removeTaskHandler.bind(null, task.id)}
+                            onUpdate={updateTaskHandler}
+                            onFinish={finishTaskHandler.bind(null, task.id)}
+                            task={task}
+                        />
+                    </Col>
+                ))}
+            </Row>
+        </Container>
         // </>
 
     );

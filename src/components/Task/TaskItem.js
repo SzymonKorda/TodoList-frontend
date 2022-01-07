@@ -2,10 +2,20 @@ import {Button, ButtonGroup, Card, CardGroup} from "react-bootstrap";
 import {useState} from "react";
 import UpdateTaskModal from "./UpdateTaskModal";
 import DeleteTaskWarningModal from "./DeleteTaskWarningModal";
+import SimpleTaskInfoModal from "./SimpleTaskInfoModal";
 
 const TaskItem = (props) => {
     const [updateTaskModalShow, setUpdateTaskModalShow] = useState(false);
     const [deleteTaskModalShow, setDeleteTaskModalShow] = useState(false);
+    const [simpleTaskInfoModalShow, setSimpleTaskInfoModalShow] = useState(false);
+
+    const handleSimpleTaskInfoModalShow = () => {
+        setSimpleTaskInfoModalShow(true);
+    };
+
+    const handleSimpleTaskInfoModalClose = () => {
+        setSimpleTaskInfoModalShow(false);
+    }
 
     const handleDeleteTaskModalShow = () => {
         setDeleteTaskModalShow(true);
@@ -34,7 +44,7 @@ const TaskItem = (props) => {
                 backgroundColor: '#b0abab',
             }}>
                 <Card.Header></Card.Header>
-                <Card.Body>
+                <Card.Body onClick={handleSimpleTaskInfoModalShow}>
                     <Card.Title style={{ height: "20px", overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis"}}>{props.title}</Card.Title>
                     <Card.Text style={{height: "50px", overflow: "hidden" , textOverflow: "ellipsis", display: '-webkit-box',
                     webkitLineClamp: '2', webkitBoxOrient: 'vertical'}}>{props.description}</Card.Text>
@@ -56,8 +66,12 @@ const TaskItem = (props) => {
                 onHide={handleDeleteTaskModalClose}
                 onConfirm={props.onRemove}
             />}
+            {simpleTaskInfoModalShow && <SimpleTaskInfoModal
+                show={simpleTaskInfoModalShow}
+                onHide={handleSimpleTaskInfoModalClose}
+                task={props.task}
+            />}
         </>
     );
 };
-
 export default TaskItem;

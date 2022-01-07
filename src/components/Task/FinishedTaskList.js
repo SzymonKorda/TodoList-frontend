@@ -85,19 +85,28 @@ const FinishedTaskList = () => {
         }, {
             dataField: 'action',
             text: 'Action',
-            style: {
-                textAlign: "center"
-            },
+            // style: {
+            //     textAlign: "center"
+            // },
             // classes: "d-flex justify-content-center",
             formatter: (cellContent, row) => {
                 return (
-                    <Button
-                        variant={"danger"}
-                        size={"sm"}
-                        onClick={removeTaskHandler.bind(null, row.id)}>
-                        Delete
-                    </Button>
-                );
+                    <>
+                        <Button
+                            variant={"success"}
+                            size={"sm"}
+                            onClick={getFullTaskInfo.bind(null, row.id)}>
+                            Show
+                        </Button> {' '}
+                        <Button
+                            variant={"danger"}
+                            size={"sm"}
+                            onClick={removeTaskHandler.bind(null, row.id)}>
+                            Delete
+                        </Button>
+                    </>
+            )
+                ;
             }
         }];
 
@@ -180,7 +189,7 @@ const FinishedTaskList = () => {
     };
 
     return (
-        <>
+        <div>
             <ToolkitProvider
                 keyField='id'
                 data={userFinishedTasks}
@@ -236,7 +245,7 @@ const FinishedTaskList = () => {
                 onHide={handleFullTaskInfoModalClose}
                 task={fullTaskInfoModalShow.task}
             />}
-        </>
+        </div>
 
         // <BootstrapTable
         // classes={"table-dark"}
