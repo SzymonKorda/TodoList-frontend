@@ -5,9 +5,9 @@ import {Route, Switch, Redirect} from "react-router-dom";
 import Home from "./components/Task/Home";
 import FinishedTaskList from "./components/Task/FinishedTaskList";
 import {ToastContainer} from "react-toastify";
-import React, {useContext} from "react";
-import UserContext from "./store/user-context";
+import React, {useContext, useEffect} from "react";
 import ProtectedRoute from "./components/Task/ProtectedRoute";
+import PageNotFound from "./components/Task/PageNotFound";
 
 const App = () => {
     return (
@@ -29,9 +29,10 @@ const App = () => {
             <Header/>
             {/*TODO safe router links*/}
             <Switch>
-                <Route exact path={["/", "/home"]} component={Home}/>
-                <ProtectedRoute exact path="/active" component={AddTask}/>
-                <ProtectedRoute exact path="/finished" component={FinishedTaskList}/>
+                <Route exact path="/" component={Home}/>
+                <ProtectedRoute path="/active" component={AddTask}/>
+                <ProtectedRoute path="/finished" component={FinishedTaskList}/>
+                <Route component={PageNotFound}/>
             </Switch>
         </div>
     )

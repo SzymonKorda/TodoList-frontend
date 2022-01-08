@@ -30,7 +30,7 @@ const Header = () => {
         <>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container fluid>
-                    <Navbar.Brand as={Link} to={"/home"}>TodoList</Navbar.Brand>
+                    <Navbar.Brand as={Link} to={"/"}>TodoList</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">

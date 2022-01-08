@@ -18,7 +18,6 @@ const UserContextProvider = props => {
     }, [])
 
     const history = useHistory();
-
     const routeChange = (path) => {
         history.push(path);
     };
@@ -38,7 +37,7 @@ const UserContextProvider = props => {
         localStorage.removeItem('username');
         setIsLoggedIn(false);
         toast.success('User logout successfully!');
-        routeChange('/home');
+        routeChange('/');
     };
 
     return (
