@@ -9,7 +9,7 @@ const LoginUserModal = (props) => {
             username: enteredUsername,
             password: enteredPassword
         }
-        ApiService.post('auth/signin', credentials)
+        ApiService.loginUser(credentials)
             .then((response) => {
                 toast.success('User logged successfully!');
                 const token = response.data.accessToken;

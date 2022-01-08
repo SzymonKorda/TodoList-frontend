@@ -11,7 +11,7 @@ const RegisterUserModal = (props) => {
             email: enteredEmail,
             password: enteredPassword
         }
-        ApiService.post('auth/signup', user)
+        ApiService.registerUser(user)
             .then((response) => {
                 toast.success('User registered successfully!');
                 props.onHide();

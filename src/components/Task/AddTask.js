@@ -42,19 +42,9 @@ const AddTask = (props) => {
     };
 
     const getUserActiveTasks = () => {
-        ApiService.get('task', {
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            }
-        })
+        ApiService.getUserActiveTasks()
             .then((response) => {
-                //TODO why active instead of isActive => check getUserTasks on backend
-                console.log(response.data);
-                let taskList = response.data;
-                taskList = taskList.filter((task) => {
-                    return task.active
-                })
-                setUserActiveTasks(taskList);
+                setUserActiveTasks(response.data);
             })
             .catch((error) => {
                 console.log(error);

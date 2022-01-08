@@ -45,7 +45,7 @@ const TaskItem = (props) => {
             }}>
                 <Card.Header></Card.Header>
                 <Card.Body onClick={handleSimpleTaskInfoModalShow}>
-                    <Card.Title style={{ height: "20px", overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis"}}>{props.title}</Card.Title>
+                    <Card.Title style={{ height: "30px", overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis"}}>{props.title}</Card.Title>
                     <Card.Text style={{height: "50px", overflow: "hidden" , textOverflow: "ellipsis", display: '-webkit-box',
                     webkitLineClamp: '2', webkitBoxOrient: 'vertical'}}>{props.description}</Card.Text>
                 </Card.Body>

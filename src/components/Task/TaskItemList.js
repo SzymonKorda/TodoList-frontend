@@ -6,11 +6,7 @@ import {useState} from "react";
 
 const TaskItemList = (props) => {
     const removeTaskHandler = (id) => {
-        ApiService.delete(`task/${id}`, {
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            }
-        })
+        ApiService.deleteTask(id)
             .then((response) => {
                 toast.error(response.data);
                 props.onRemove(id);
@@ -21,14 +17,11 @@ const TaskItemList = (props) => {
     };
 
     const updateTaskHandler = (updatedTask) => {
-        ApiService.put(`task/${updatedTask.id}`, {
+        const task = {
             title: updatedTask.title,
             description: updatedTask.description
-        }, {
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            }
-        })
+        };
+        ApiService.updateTask(updatedTask, task)
             .then((response) => {
                 toast.warning(response.data);
                 props.onUpdate(updatedTask);
@@ -39,11 +32,7 @@ const TaskItemList = (props) => {
     };
 
     const finishTaskHandler = (id) => {
-        ApiService.post(`task/${id}/finish`, {}, {
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            }
-        })
+        ApiService.finishTask(id)
             .then((response) => {
                 toast.success(response.data);
                 props.onFinish();

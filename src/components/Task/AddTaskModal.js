@@ -9,11 +9,7 @@ const AddTaskModal = (props) => {
             title: enteredTitle,
             description: enteredDescription
         }
-        ApiService.post('task', task, {
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            }
-        })
+        ApiService.addTask(task)
             .then((response) => {
                 toast.success(response.data)
                 props.onHide();

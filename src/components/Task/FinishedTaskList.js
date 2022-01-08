@@ -1,24 +1,42 @@
-import React, {useState, useEffect} from "react";
-import {Button, Col, Container, Row, Table} from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+import {Button, Col, Container, Row} from "react-bootstrap";
 import ApiService from "../../utils/ApiService";
 import {toast} from "react-toastify";
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory, {
-    PaginationProvider,
     PaginationListStandalone,
-    SizePerPageDropdownStandalone,
-    PaginationTotalStandalone
+    PaginationProvider,
+    PaginationTotalStandalone,
+    SizePerPageDropdownStandalone
 } from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit';
-import AddTaskModal from "./AddTaskModal";
 import FullTaskInfoModal from "./FullTaskInfoModal";
+import DeleteTaskWarningModal from "./DeleteTaskWarningModal";
 
 
 const FinishedTaskList = () => {
+    const [deleteTaskModalShow, setDeleteTaskModalShow] = useState({
+        show: false,
+        id: -1
+    });
     const [fullTaskInfoModalShow, setFullTaskInfoModalShow] = useState({
         show: false,
         task: {}
     });
+
+    const handleDeleteTaskModalShow = (id) => {
+        setDeleteTaskModalShow({
+            show: true,
+            id: id
+        });
+    };
+
+    const handleDeleteTaskModalClose = () => {
+        setDeleteTaskModalShow({
+            show: false,
+            id: -1
+        });
+    }
 
     const handleFullTaskInfoModalShow = (task) => {
         setFullTaskInfoModalShow({
@@ -35,16 +53,6 @@ const FinishedTaskList = () => {
     }
 
     const {SearchBar} = Search;
-    const buttonFormatter = (id) => {
-        return (
-            <Button
-                variant={"danger"}
-                size={"sm"}
-                onClick={removeTaskHandler.bind(null, id)}>
-                Delete
-            </Button>
-        );
-    }
 
     const columns = [
         {
@@ -101,50 +109,38 @@ const FinishedTaskList = () => {
                         <Button
                             variant={"danger"}
                             size={"sm"}
-                            onClick={removeTaskHandler.bind(null, row.id)}>
+                            onClick={handleDeleteTaskModalShow.bind(null, row.id)}>
                             Delete
                         </Button>
                     </>
-            )
-                ;
+                )
+                    ;
             }
         }];
 
     const [userFinishedTasks, setUserFinishedTasks] = useState([]);
 
     useEffect(() => {
-        getUserActiveTasks();
+        getUserFinishedTasks();
     }, []);
 
-    const getUserActiveTasks = () => {
-        ApiService.get('task', {
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            }
-        })
+    const getUserFinishedTasks = () => {
+        ApiService.getUserFinishedTasks()
             .then((response) => {
-                //TODO why active instead of isActive => check getUserTasks on backend
-                let taskList = response.data;
-                taskList = taskList.filter((task) => {
-                    return !task.active
-                })
-                console.log(taskList);
-                setUserFinishedTasks(taskList);
+                console.log(response.data);
+                setUserFinishedTasks(response.data);
             })
             .catch((error) => {
                 console.log(error);
             })
     };
 
-    const removeTaskHandler = (id) => {
-        ApiService.delete(`task/${id}`, {
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            }
-        })
+    const removeTaskHandler = () => {
+        ApiService.deleteTask(deleteTaskModalShow.id)
             .then((response) => {
+                handleDeleteTaskModalClose();
                 toast.error(response.data);
-                getUserActiveTasks();
+                getUserFinishedTasks();
             })
             .catch((error) => {
                 toast.error(error.response.data);
@@ -168,11 +164,7 @@ const FinishedTaskList = () => {
     });
 
     const getFullTaskInfo = (id) => {
-        ApiService.get(`task/${id}`, {
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            }
-        })
+        ApiService.getTask(id)
             .then((response) => {
                 console.log(response.data);
                 handleFullTaskInfoModalShow(response.data);
@@ -182,11 +174,11 @@ const FinishedTaskList = () => {
             })
     };
 
-    const rowEvents = {
-        onClick: (e, row, rowIndex) => {
-            getFullTaskInfo(row.id);
-        }
-    };
+    // const rowEvents = {
+    //     onClick: (e, row, rowIndex) => {
+    //         getFullTaskInfo(row.id);
+    //     }
+    // };
 
     return (
         <div>
@@ -225,7 +217,6 @@ const FinishedTaskList = () => {
                                             hover
                                             striped
                                             bootstrap4
-                                            rowEvents={rowEvents}
                                             {...paginationTableProps}
                                         />
                                         <SizePerPageDropdownStandalone
@@ -244,6 +235,11 @@ const FinishedTaskList = () => {
                 show={fullTaskInfoModalShow.show}
                 onHide={handleFullTaskInfoModalClose}
                 task={fullTaskInfoModalShow.task}
+            />}
+            {deleteTaskModalShow.show && <DeleteTaskWarningModal
+                show={deleteTaskModalShow}
+                onHide={handleDeleteTaskModalClose}
+                onConfirm={removeTaskHandler}
             />}
         </div>
 
