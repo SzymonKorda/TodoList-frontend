@@ -54,7 +54,7 @@ const LoginUserForm = (props) => {
                 <Form.Control.Feedback type={'invalid'}>{formik.errors.password}</Form.Control.Feedback>
             </Form.Group>
             <Modal.Footer>
-                <Button onClick={props.onHide}>Cancel</Button>
+                {/*<Button onClick={props.onHide}>Cancel</Button>*/}
                 <Button type={'submit'}>Submit</Button>
             </Modal.Footer>
         </Form>

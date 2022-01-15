@@ -7,7 +7,8 @@ const headers =  {
 }
 
 const apiClient = axios.create({
-    baseURL: 'https://todolist-backend.cytr.us/api/'
+    // baseURL: 'https://todolist-backend.cytr.us/api/'
+    baseURL: 'http://localhost:8080/api'
 })
 
 const registerUser = (user) => {
@@ -24,6 +25,10 @@ const getUserActiveTasks = () => {
 
 const getUserFinishedTasks = () => {
     return apiClient.get('task/finish', headers);
+};
+
+const getUserTaskCount = () => {
+    return apiClient.get('task/count', headers);
 };
 
 const getTask = (id) => {
@@ -55,7 +60,8 @@ const ApiService = {
     addTask,
     updateTask,
     deleteTask,
-    finishTask
+    finishTask,
+    getUserTaskCount
 }
 
 export default ApiService;
