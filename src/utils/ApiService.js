@@ -1,10 +1,12 @@
 import axios from "axios";
 
-const headers =  {
-    headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token')
+const getHeaders = () => {
+    return {
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
     }
-}
+};
 
 const apiClient = axios.create({
     // baseURL: 'https://todolist-backend.cytr.us/api/'
@@ -20,35 +22,35 @@ const loginUser = (credentials) => {
 };
 
 const getUserActiveTasks = () => {
-    return apiClient.get('task/active', headers);
+    return apiClient.get('task/active', getHeaders());
 };
 
 const getUserFinishedTasks = () => {
-    return apiClient.get('task/finish', headers);
+    return apiClient.get('task/finish', getHeaders());
 };
 
 const getUserTaskCount = () => {
-    return apiClient.get('task/count', headers);
+    return apiClient.get('task/count', getHeaders());
 };
 
 const getTask = (id) => {
-    return apiClient.get(`task/${id}`, headers);
+    return apiClient.get(`task/${id}`, getHeaders());
 };
 
 const addTask = (task) => {
-    return apiClient.post('task', task, headers);
+    return apiClient.post('task', task, getHeaders());
 };
 
 const updateTask = (updatedTask, task) => {
-    return apiClient.put(`task/${updatedTask.id}`, task, headers);
+    return apiClient.put(`task/${updatedTask.id}`, task, getHeaders());
 };
 
 const deleteTask = (id) => {
-    return apiClient.delete(`task/${id}`, headers);
+    return apiClient.delete(`task/${id}`, getHeaders());
 };
 
 const finishTask = (id) => {
-    return apiClient.post(`task/${id}/finish`, {},  headers)
+    return apiClient.post(`task/${id}/finish`, {},  getHeaders())
 };
 
 const ApiService = {
