@@ -4,22 +4,12 @@
 
 html {
     /*background-color: #b0abab;*/
-    background-color: #817f7f;
+    /*background-color: #817f7f;*/
+    /*background-color: #9ecd96;*/
+    background-color: #afced0;
 }
 
 body {
     margin: 0;
     background-color: #242624;
 }
-
-.profile-img-card {
-    width: 96px;
-    height: 96px;
-    margin: 0 auto 10px;
-    display: block;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-    border-radius: 50%;
-    margin-top: 30px;
-}
-

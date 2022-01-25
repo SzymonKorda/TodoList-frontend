@@ -1,13 +1,12 @@
 import {Button, Container, Nav, Navbar} from "react-bootstrap";
 import {useContext, useState} from "react";
 import RegisterUserModal from "../User/register/RegisterUserModal";
-import LoginUserModal from "../User/login/LoginUserModal";
 import UserContext from "../../store/user-context";
 import {Link} from "react-router-dom";
 
 const Header = () => {
     const [showRegisterUserModal, setShowRegisterUserModal] = useState(false);
-    const [loginUserModalShow, setLoginUserModalShow] = useState(false);
+
     const userCtx = useContext(UserContext);
 
     const handleRegisterModalShow = () => {
@@ -18,33 +17,24 @@ const Header = () => {
         setShowRegisterUserModal(false);
     };
 
-    const handleLoginModalShow = () => {
-        setLoginUserModalShow(true);
-    };
-
-    const handleLoginModalClose = () => {
-        setLoginUserModalShow(false);
-    };
-
     return (
         <>
-            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+            <Navbar expand="lg" bg="dark" variant="dark">
                 <Container fluid>
                     <Navbar.Brand as={Link} to={"/"}>TodoList</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                     <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="me-auto">
+                        <Nav className="me-auto" fill>
                             {userCtx.isLoggedIn && <Link to={"/active"} className="nav-link">Active tasks</Link>}
                             {userCtx.isLoggedIn && <Link to={"/finished"} className="nav-link">Finished tasks</Link>}
                         </Nav>
-                        <Nav>
+                        <Nav fill>
                             {!userCtx.isLoggedIn &&
-                            <Button variant={"dark"} onClick={handleLoginModalShow}>Sign in</Button>}
-                            {!userCtx.isLoggedIn &&
-                            <Button variant={"dark"} onClick={handleRegisterModalShow}>Register</Button>}
+                            <Nav.Link onClick={handleRegisterModalShow}>Register</Nav.Link>}
+                            {userCtx.isLoggedIn  &&
+                            <Nav.Link disabled active>{userCtx.displayedUsername}</Nav.Link>}
                             {userCtx.isLoggedIn &&
-                            <Button variant={"dark"} disabled>{userCtx.displayedUsername}</Button>}
-                            {userCtx.isLoggedIn && <Button variant={"dark"} onClick={userCtx.onLogout}>Logout</Button>}
+                            <Nav.Link onClick={userCtx.onLogout}>Logout</Nav.Link>}
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
@@ -52,12 +42,6 @@ const Header = () => {
             {showRegisterUserModal && <RegisterUserModal
                 show={showRegisterUserModal}
                 onHide={handleRegisterModalClose}
-                onShowToast={userCtx.onShowToast}
-            />}
-            {loginUserModalShow && <LoginUserModal
-                show={loginUserModalShow}
-                onHide={handleLoginModalClose}
-                onLogin={userCtx.onLogin}
                 onShowToast={userCtx.onShowToast}
             />}
         </>

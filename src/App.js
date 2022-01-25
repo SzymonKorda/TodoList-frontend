@@ -13,7 +13,9 @@ const App = () => {
     return (
         <div
             style={{
-                backgroundColor: '#817f7f'
+                // backgroundColor: '#817f7f'
+                // backgroundColor: '#9ecd96'
+                backgroundColor: '#afced0'
             }}
         >
             <ToastContainer

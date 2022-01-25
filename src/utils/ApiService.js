@@ -9,8 +9,8 @@ const getHeaders = () => {
 };
 
 const apiClient = axios.create({
-    // baseURL: 'https://todolist-backend.cytr.us/api/'
-    baseURL: 'http://localhost:8080/api'
+    baseURL: 'https://todolist-backend.cytr.us/api/'
+    // baseURL: 'http://localhost:8080/api'
 })
 
 const registerUser = (user) => {

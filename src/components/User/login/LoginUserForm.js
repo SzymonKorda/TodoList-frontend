@@ -1,4 +1,4 @@
-import {Button, Form, Modal} from "react-bootstrap";
+import {Button, Form, FormGroup, Modal} from "react-bootstrap";
 import * as Yup from "yup";
 import {useFormik} from "formik";
 
@@ -53,9 +53,11 @@ const LoginUserForm = (props) => {
                 />
                 <Form.Control.Feedback type={'invalid'}>{formik.errors.password}</Form.Control.Feedback>
             </Form.Group>
+            {/*<FormGroup>*/}
+            {/*</FormGroup>*/}
             <Modal.Footer>
+                <Button type={'submit'} style={{width: "100%"}}>Submit</Button>
                 {/*<Button onClick={props.onHide}>Cancel</Button>*/}
-                <Button type={'submit'}>Submit</Button>
             </Modal.Footer>
         </Form>
     );
