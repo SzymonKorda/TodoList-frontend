@@ -19,7 +19,7 @@ const Header = () => {
 
     return (
         <>
-            <Navbar expand="lg" bg="dark" variant="dark">
+            <Navbar expand="md" bg="dark" variant="dark">
                 <Container fluid>
                     <Navbar.Brand as={Link} to={"/"}>TodoList</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav"/>

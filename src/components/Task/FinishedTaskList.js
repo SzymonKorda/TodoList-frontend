@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Col, Container, Row} from "react-bootstrap";
+import {Button, Col, Container, Dropdown, Row} from "react-bootstrap";
 import ApiService from "../../utils/ApiService";
 import {toast} from "react-toastify";
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -79,6 +79,7 @@ const FinishedTaskList = () => {
             },
             style: {
                 // backgroundColor: '#c8e6c9',
+                whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: "ellipsis"
             }
@@ -86,10 +87,20 @@ const FinishedTaskList = () => {
             dataField: 'createdOn',
             text: 'Created On',
             sort: true,
+            headerStyle: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: "ellipsis"
+            },
         }, {
             dataField: 'finishedOn',
             text: 'Finished On',
             sort: true,
+            headerStyle: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: "ellipsis"
+            },
         }, {
             dataField: 'action',
             text: 'Action',
@@ -139,7 +150,7 @@ const FinishedTaskList = () => {
         ApiService.deleteTask(deleteTaskModalShow.id)
             .then((response) => {
                 handleDeleteTaskModalClose();
-                toast.error(response.data);
+                toast.success(response.data);
                 getUserFinishedTasks();
             })
             .catch((error) => {
@@ -187,7 +198,6 @@ const FinishedTaskList = () => {
                 data={userFinishedTasks}
                 columns={columns}
                 search
-
             >
                 {
                     props => (
@@ -201,12 +211,12 @@ const FinishedTaskList = () => {
                                 ) => (
                                     <Container className={'mt-5'}>
                                         <Row>
-                                            <Col>
+                                            <Col xs={"auto"} sm={4}>
                                                 <SearchBar  {...props.searchProps} srText={null}/>
                                             </Col>
-                                            <Col>
-                                            </Col>
-                                            <Col>
+                                            {/*<Col xs>*/}
+                                            {/*</Col>*/}
+                                            <Col xs={"auto"} sm={8}>
                                                 <PaginationListStandalone className={"bg-black"} {...paginationProps}/>
                                             </Col>
                                         </Row>
@@ -219,10 +229,13 @@ const FinishedTaskList = () => {
                                             bootstrap4
                                             {...paginationTableProps}
                                         />
+                                        <div className="mb-1">
                                         <SizePerPageDropdownStandalone
                                             {...paginationProps}
                                         />
                                         <PaginationTotalStandalone {...paginationProps}/>
+                                        </div>
+
                                     </Container>
                                 )
                             }
@@ -230,6 +243,8 @@ const FinishedTaskList = () => {
                     )
                 }
             </ToolkitProvider>
+
+            {/*<span className={"mt-5"}>  </span>*/}
 
             {fullTaskInfoModalShow.show && <FullTaskInfoModal
                 show={fullTaskInfoModalShow.show}

@@ -45,6 +45,10 @@ const AddTask = (props) => {
     const getUserActiveTasks = () => {
         ApiService.getUserActiveTasks()
             .then((response) => {
+                response.data.sort((a,b) => {
+                    return b.id - a.id;
+                })
+                console.log(response.data);
                 setUserActiveTasks(response.data);
             })
             .catch((error) => {

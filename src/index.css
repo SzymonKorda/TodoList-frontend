@@ -1,18 +1,21 @@
-* {
-    box-sizing: border-box;
-}
-
 html, body {
+
     /*background-color: #b0abab;*/
     /*background-color: #817f7f;*/
     /*background-color: #9ecd96;*/
     height: 100%;
     width: 100%;
     background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+    background-attachment: fixed;
+    /*position:absolute;*/
     /*background-color: #FFDEE9;*/
     /*background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 100%);*/
 
 
 
     /*background-color: #afced0;*/
+}
+
+* {
+    box-sizing: border-box;
 }

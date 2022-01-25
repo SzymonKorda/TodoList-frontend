@@ -9,8 +9,8 @@ const SimpleTaskInfoModal = (props) => {
             aria-labelledby="contained-modal-title-vcenter"
             centered
         >
-            <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
+            <Modal.Header>
+                <Modal.Title id="contained-modal-title-vcenter" style={{overflow: 'auto'}}>
                     {props.task.title}
                 </Modal.Title>
             </Modal.Header>
@@ -20,7 +20,7 @@ const SimpleTaskInfoModal = (props) => {
                         {/*<Form.Label>Description</Form.Label>*/}
                         <Form.Control
                             as="textarea"
-                            rows={3}
+                            rows={7}
                             type="text"
                             placeholder="Title"
                             value={props.task.description}

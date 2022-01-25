@@ -8,7 +8,7 @@ const TaskItemList = (props) => {
     const removeTaskHandler = (id) => {
         ApiService.deleteTask(id)
             .then((response) => {
-                toast.error(response.data);
+                toast.success(response.data);
                 props.onRemove(id);
             })
             .catch((error) => {
@@ -23,7 +23,7 @@ const TaskItemList = (props) => {
         };
         ApiService.updateTask(updatedTask, task)
             .then((response) => {
-                toast.warning(response.data);
+                toast.success(response.data);
                 props.onUpdate(updatedTask);
             })
             .catch((error) => {
@@ -44,8 +44,8 @@ const TaskItemList = (props) => {
 
     return (
         // <>
-        <Container fluid className={'mb-4 bg-transparent'}>
-            <Row xs={1} md={3} className="g-4 ">
+        <Container fluid>
+            <Row xs={1} md={3} className="g-4 bg-transparent">
                 {props.tasks.map((task) => (
                     <Col key={task.id}>
                         <TaskItem
