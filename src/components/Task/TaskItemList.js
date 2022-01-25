@@ -44,9 +44,7 @@ const TaskItemList = (props) => {
 
     return (
         // <>
-        <Container fluid className={'mb-4'} style={{
-            backgroundColor: '#817f7f'
-        }}>
+        <Container fluid className={'mb-4 bg-transparent'}>
             <Row xs={1} md={3} className="g-4 ">
                 {props.tasks.map((task) => (
                     <Col key={task.id}>

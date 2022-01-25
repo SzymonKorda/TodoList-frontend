@@ -58,9 +58,9 @@ const AddTask = (props) => {
 
     return (
         <>
-            <Container fluid className="text-center mb-4">
+            <Container fluid className="text-center mb-1">
                 <Row>
-                    <div className="h-100 p-5 bg-secondary">
+                    <div className="h-100 p-5">
                         <h2>The best task managing App</h2>
                         <p>Manage your tasks fast and easily</p>
                         {userCtx.isLoggedIn && <Button

@@ -11,13 +11,7 @@ import PageNotFound from "./components/Task/PageNotFound";
 
 const App = () => {
     return (
-        <div
-            style={{
-                // backgroundColor: '#817f7f'
-                // backgroundColor: '#9ecd96'
-                backgroundColor: '#afced0'
-            }}
-        >
+        <div>
             <ToastContainer
                 position="top-center"
                 theme="colored"
@@ -30,7 +24,7 @@ const App = () => {
             />
             <Header/>
             {/*TODO safe router links*/}
-            <Switch>
+            <Switch className={"bg-transparent"}>
                 <Route exact path="/" component={Home}/>
                 <ProtectedRoute path="/active" component={AddTask}/>
                 <ProtectedRoute path="/finished" component={FinishedTaskList}/>
