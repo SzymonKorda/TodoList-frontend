@@ -2,14 +2,14 @@
 Frontend for simple tasks managing web application.
 
 Application demo:
-https://todolist.cytr.us/
+https://todolist.skorda.pl/
 
 API documentation:
-https://todolist-backend.cytr.us/swagger-ui/
+https://api.todolist.skorda.pl/swagger-ui/#
 
 Used technologies:
-- JavaScript,
 - React.js,
+- JavaScript,
 - React-Bootstrap,
 - Bootstrap 5,
 - Formik,
