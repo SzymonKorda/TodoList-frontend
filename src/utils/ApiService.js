@@ -9,7 +9,7 @@ const getHeaders = () => {
 };
 
 const apiClient = axios.create({
-    baseURL: 'https://todolist-backend.cytr.us/api/'
+    baseURL: 'https://api.todolist.skorda.pl/api/'
     // baseURL: 'http://localhost:8080/api'
 })
 
